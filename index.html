@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Snowball">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="description" content="Snowball: mira tus animes favoritos con temporadas, episodios y seguimiento de progreso.">
+<meta property="og:title" content="Snowball">
+<meta property="og:description" content="Tu anime, en streaming.">
+<meta property="og:type" content="website">
+<title>Snowball</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23000'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%237c3aed'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="phone-container" id="phoneContainer">
+
+    <noscript>
+        <p style="padding:24px;font-size:14px;">Snowball necesita JavaScript para funcionar.</p>
+    </noscript>
+
+    <!-- ==================== VISTAS ==================== -->
+    <div class="views" id="views">
+
+        <!-- ---------- INICIO ---------- -->
+        <section id="viewHome" class="app-view active">
+            <header class="page-head">
+                <div class="brand-logo">Snowball</div>
+                <button class="avatar-btn" id="userProfileBtn" onclick="openLoginModal()" aria-label="Tu cuenta">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5z"/></svg>
+                </button>
+            </header>
+
+            <div class="feature-card" id="heroCard">
+                <span class="feature-tag">Destacado</span>
+                <div class="feature-bottom">
+                    <h2 id="heroTitle">—</h2>
+                    <p id="heroMeta"></p>
+                    <button class="btn-accent" id="heroPlayBtn" aria-label="Ver ficha del anime destacado">
+                        <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+                        Ver ficha
+                    </button>
+                </div>
+            </div>
+
+            <div class="section-head">
+                <h2>Continuar viendo</h2>
+                <button class="link-btn" onclick="goExplore()">Ver todo</button>
+            </div>
+            <div class="shelf" id="rowContinue"></div>
+
+            <div class="section-head">
+                <h2>Top de la semana</h2>
+            </div>
+            <div class="shelf" id="rowTrending"></div>
+
+            <div class="section-head">
+                <h2>Recién llegados</h2>
+            </div>
+            <div class="shelf" id="rowNew"></div>
+        </section>
+
+        <!-- ---------- EXPLORAR ---------- -->
+        <section id="viewExplore" class="app-view">
+            <header class="page-head">
+                <div class="brand-logo">Snowball</div>
+            </header>
+
+            <div class="search-wrap">
+                <div class="search-field">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                    <label class="sr-only" for="searchInput">Buscar anime, género o estudio</label>
+                    <input type="text" id="searchInput" placeholder="Anime, género o estudio..." autocomplete="off" enterkeyhint="search">
+                </div>
+            </div>
+
+            <div class="chips" id="genreChips"></div>
+
+            <div class="section-head" style="padding-top: 12px;">
+                <h2>Catálogo</h2>
+                <span class="count-pill" id="catalogCount">0</span>
+            </div>
+            <div class="browse-grid" id="searchGrid"></div>
+        </section>
+
+        <!-- ---------- MI LISTA ---------- -->
+        <section id="viewList" class="app-view">
+            <header class="page-head">
+                <div class="brand-logo">Snowball</div>
+            </header>
+
+            <div class="section-head" style="padding-top: 16px;">
+                <h2>Guardados</h2>
+                <span class="count-pill" id="favCount">0</span>
+            </div>
+            <div id="favoritesGrid"></div>
+        </section>
+    </div>
+
+    <!-- ==================== TAB BAR ==================== -->
+    <nav class="tab-bar" aria-label="Navegación principal">
+        <button class="tab active" data-view="viewHome" onclick="switchTab('viewHome', this)" aria-label="Inicio" title="Inicio">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        </button>
+        <button class="tab" data-view="viewExplore" onclick="switchTab('viewExplore', this)" aria-label="Explorar" title="Explorar">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+        </button>
+        <button class="tab" data-view="viewList" onclick="switchTab('viewList', this)" aria-label="Mi lista" title="Mi lista">
+            <span class="tab-badge" id="navFavBadge">0</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3H5c-1.1 0-2 .9-2 2v14l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
+        </button>
+    </nav>
+
+    <!-- ==================== DETALLE ==================== -->
+    <div class="detail-screen" id="detailScreen" aria-hidden="true">
+        <div class="detail-hero" id="detailHero">
+            <div class="back-row">
+                <button class="back-btn" onclick="closeDetail()" aria-label="Volver">‹</button>
+            </div>
+
+            <div class="detail-art" id="detailArt"></div>
+            <h2 class="detail-title" id="detailTitle">—</h2>
+            <div class="detail-meta" id="detailMeta"></div>
+            <div class="detail-tags" id="detailTags"></div>
+            <p class="detail-synopsis" id="detailSynopsis"></p>
+        </div>
+
+        <div class="action-row">
+            <button class="btn-play-main" id="detailPlayBtn">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+                Reproducir
+            </button>
+            <button class="btn-ghost" id="favBtn" onclick="toggleFavorite()">➕ Mi lista</button>
+        </div>
+
+        <div class="section-head" style="padding-top: 16px;">
+            <h2>Episodios</h2>
+            <span class="count-pill" id="episodesCount">0</span>
+        </div>
+        <div class="season-tabs" id="seasonTabs" role="tablist" aria-label="Temporadas"></div>
+        <div class="ep-list" id="episodesList"></div>
+
+        <div class="comments-block">
+            <div class="section-head">
+                <h2>Comentarios</h2>
+                <span class="count-pill" id="commentsCount">0</span>
+            </div>
+
+            <div class="comment-form">
+                <label class="sr-only" for="commentInput">Escribe un comentario</label>
+                <input type="text" id="commentInput" placeholder="Escribe un comentario..." maxlength="500" autocomplete="off">
+                <button class="comment-send" id="commentSubmitBtn" onclick="postComment()">Enviar</button>
+            </div>
+
+            <div class="group" id="commentList"></div>
+        </div>
+    </div>
+
+    <!-- ==================== NOW PLAYING ==================== -->
+    <div class="player" id="fullPlayer" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Reproductor">
+        <div class="player-top">
+            <button class="icon-btn" onclick="minimizePlayer()" aria-label="Minimizar">⌄</button>
+            <span class="player-top-label">Reproduciendo</span>
+            <button class="icon-btn" onclick="closePlayer(true)" aria-label="Cerrar reproductor">✕</button>
+        </div>
+
+        <div class="player-body">
+            <div class="player-stage" id="playerStage">
+                <span class="player-badge" id="playerBadge" hidden></span>
+                <video id="mainVideo" playsinline controls preload="metadata"></video>
+                <iframe id="embedFrame" title="Reproductor externo" hidden allow="autoplay; encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+            </div>
+
+            <div class="now-meta">
+                <h2 id="videoTitle">—</h2>
+                <p id="videoSubtitle"></p>
+            </div>
+
+            <div>
+                <label class="sr-only" for="seekBar">Progreso del vídeo</label>
+                <input type="range" class="seek" id="seekBar" min="0" max="100" step="0.1" value="0">
+                <div class="times">
+                    <span id="timeCurrent">0:00</span>
+                    <span id="timeTotal">0:00</span>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="ctrl" id="restartBtn" onclick="restartVideo()" aria-label="Reiniciar">⏮</button>
+                <button class="ctrl ctrl-main" id="playPauseBtn" onclick="togglePlayVideo()" aria-label="Reproducir o pausar">⏸</button>
+                <button class="ctrl" id="stopBtn" onclick="stopVideo()" aria-label="Detener">⏹</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MINI PLAYER ==================== -->
+    <div class="mini" id="miniPlayer" onclick="openPlayerFromMini()" role="button" tabindex="0" aria-label="Abrir reproductor">
+        <div class="mini-progress"><span id="miniProgress"></span></div>
+        <div class="mini-art" id="miniArt"></div>
+        <div class="mini-text">
+            <h4 id="miniTitle">—</h4>
+            <span id="miniSubtitle"></span>
+        </div>
+        <div class="mini-controls">
+            <button id="miniToggleBtn" onclick="event.stopPropagation(); togglePlayVideo();" aria-label="Reproducir o pausar">⏸</button>
+            <button onclick="event.stopPropagation(); closePlayer(true)" aria-label="Detener">✕</button>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL DE LOGIN ==================== -->
+    <div class="sheet" id="loginModal" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+        <div class="sheet-card">
+            <h3 id="loginTitle">Acceso a Snowball</h3>
+            <p>Inicia sesión con Google para guardar tu lista, tu progreso y comentar.</p>
+            <button class="btn-white" id="googleLoginBtn" onclick="loginWithGoogle()">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+                    <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.2v3.15C3.16 21.37 7.22 24 12 24z"/>
+                    <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.2C.44 8.12 0 9.87 0 12s.44 3.88 1.2 5.42l4.08-3.15z"/>
+                    <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.22 0 3.16 2.63 1.2 6.58l4.08 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                </svg>
+                Continuar con Google
+            </button>
+            <button class="btn-text" onclick="closeLoginModal()">Ahora no</button>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL DE PERFIL ==================== -->
+    <div class="sheet" id="profileModal" role="dialog" aria-modal="true" aria-labelledby="profileNameDisplay">
+        <div class="sheet-card">
+            <div class="profile-avatar" id="profileAvatar">?</div>
+            <h3 id="profileNameDisplay" style="margin-bottom:2px;">—</h3>
+            <p id="profileEmail" style="margin-bottom:16px;"></p>
+
+            <label class="field-label" for="editNameInput">Nombre de usuario</label>
+            <input type="text" class="input-text" id="editNameInput" maxlength="20" autocomplete="off">
+            <p class="error-msg" id="profileErrorMsg"></p>
+
+            <div style="margin-top:14px;">
+                <button class="btn-white" id="saveProfileBtn" onclick="saveProfileChanges()">Guardar cambios</button>
+            </div>
+            <button class="btn-purple" onclick="logoutUser()">Cerrar sesión</button>
+            <button class="btn-text" onclick="closeProfileModal()">Cancelar</button>
+        </div>
+    </div>
+
+    <!-- ==================== TOASTS ==================== -->
+    <div class="toast-stack" id="toastStack" aria-live="polite"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1" defer></script>
+<script src="js/config.js" defer></script>
+<script src="js/data/catalog.js" defer></script>
+<script src="js/app.js" defer></script>
+</body>
+</html>
