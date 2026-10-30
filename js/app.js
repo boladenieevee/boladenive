@@ -456,6 +456,7 @@
             toast('Quitado de Mi lista');
         } else {
             state.favorites.add(animeId);
+            pulseListTab();
             toast('Añadido a Mi lista', 'ok');
         }
 
@@ -1135,6 +1136,26 @@
         return row;
     }
 
+    /* Punto + pulso del icono al guardar en Mi lista (sin números) */
+    function pulseListTab() {
+        var badge = $('navFavBadge');
+        var tab = badge ? badge.closest('.tab') : null;
+        if (!badge || !tab) return;
+
+        badge.classList.remove('pulse');
+        tab.classList.remove('is-bump');
+        void badge.offsetWidth; // reinicia la animación si se pulsa varias veces
+
+        badge.classList.add('pulse');
+        tab.classList.add('is-bump');
+
+        clearTimeout(pulseListTab.timer);
+        pulseListTab.timer = setTimeout(function () {
+            badge.classList.remove('pulse');
+            tab.classList.remove('is-bump');
+        }, 900);
+    }
+
     function renderFavorites() {
         var wrap = $('favoritesGrid');
         if (!wrap) return;
@@ -1145,8 +1166,13 @@
         $('favCount').textContent = String(count);
 
         var badge = $('navFavBadge');
-        badge.textContent = String(count);
-        badge.classList.toggle('visible', count > 0);
+        // Sin número: el punto solo aparece como animación al añadir (pulseListTab)
+        var listTab = badge ? badge.closest('.tab') : null;
+        if (listTab) {
+            listTab.setAttribute('aria-label', count
+                ? 'Mi lista, ' + count + (count === 1 ? ' guardado' : ' guardados')
+                : 'Mi lista');
+        }
 
         wrap.innerHTML = '';
 
@@ -1433,9 +1459,7 @@
         $('miniSubtitle').textContent = anime.title + ' · T' + season.number + ' E' + ep.number;
         setBg($('miniArt'), anime.poster || anime.banner);
 
-        $('timeCurrent').textContent = '0:00';
-        $('timeTotal').textContent = formatTime(ep.duration);
-        $('seekBar').value = '0';
+        renderNextUp();
     }
 
     function loadSource(ep, anime) {
@@ -1453,13 +1477,11 @@
         badge.hidden = true;
 
         if (!src) {
-            setMediaControls(false);
             toast('Este episodio todavía no tiene vídeo disponible.', 'err', 4500);
             return;
         }
 
         if (src.type === 'embed') {
-            setMediaControls(false);
             video.pause();
             video.removeAttribute('src');
             video.load();
@@ -1474,7 +1496,6 @@
             return;
         }
 
-        setMediaControls(true);
         video.hidden = false;
         video.poster = ep.thumb || anime.banner || anime.poster || '';
 
@@ -1512,21 +1533,6 @@
         if (state.hls) {
             try { state.hls.destroy(); } catch (err) { /* noop */ }
             state.hls = null;
-        }
-    }
-
-    function setMediaControls(enabled) {
-        // "Detener" sigue disponible en modos externos (embed) para cerrar.
-        ['seekBar', 'restartBtn', 'playPauseBtn'].forEach(function (id) {
-            var el = $(id);
-            if (el) el.disabled = !enabled;
-        });
-        var stop = $('stopBtn');
-        if (stop) stop.disabled = false;
-
-        if (!enabled) {
-            $('timeCurrent').textContent = '—';
-            $('timeTotal').textContent = '—';
         }
     }
 
@@ -1569,23 +1575,11 @@
         var pct = (duration && isFinite(duration)) ? (video.currentTime / duration) * 100 : 0;
 
         $('miniProgress').style.width = pct + '%';
-
-        var seek = $('seekBar');
-        if (seek && !seek.dataset.dragging) seek.value = String(pct);
-
-        $('timeCurrent').textContent = formatTime(video.currentTime);
-        $('timeTotal').textContent = formatTime(isFinite(duration) ? duration : 0);
     }
 
     function updatePlayState() {
-        var glyph = video.paused ? '▶' : '⏸';
-        var main = $('playPauseBtn');
         var mini = $('miniToggleBtn');
-        if (main) {
-            main.textContent = glyph;
-            main.setAttribute('aria-label', video.paused ? 'Reproducir' : 'Pausar');
-        }
-        if (mini) mini.textContent = glyph;
+        if (mini) mini.textContent = video.paused ? '▶' : '⏸';
     }
 
     function togglePlayVideo() {
@@ -1594,15 +1588,71 @@
         else video.pause();
     }
 
-    function restartVideo() {
-        if (!state.episode) return;
-        video.currentTime = 0;
-        if (video.paused) playMedia();
+    /* Tarjeta "A continuación": sustituye a los controles tipo reproductor de música */
+    function renderNextUp() {
+        var wrap = $('playerNext');
+        var card = $('nextCard');
+        if (!wrap || !card) return;
+
+        card.classList.remove('is-counting');
+        $('nextLabel').textContent = 'A continuación';
+        $('nextPlay').textContent = '▶';
+
+        if (!state.episode) { wrap.hidden = true; return; }
+
+        var anime = state.anime || findAnime(state.episode.animeId);
+        var next = anime ? nextEpisode(anime, state.episode.seasonId, state.episode.episodeId) : null;
+
+        if (!next) { wrap.hidden = true; return; }
+
+        var ep = next.episode;
+        var season = next.season || (anime.seasons ? anime.seasons[next.seasonIndex] : null);
+
+        $('nextTitle').textContent = ep.title || ('Episodio ' + ep.number);
+        $('nextSub').textContent = anime.title + ' · T' + (season ? season.number : '?') + ' E' + ep.number;
+        setBg($('nextArt'), ep.thumb || anime.banner || anime.poster);
+        wrap.hidden = false;
     }
 
-    function stopVideo() {
-        saveProgress();
-        closePlayer(true);
+    function playNextEpisode() {
+        if (!state.episode) return;
+        var anime = state.anime || findAnime(state.episode.animeId);
+        if (!anime) return;
+
+        var next = nextEpisode(anime, state.episode.seasonId, state.episode.episodeId);
+        if (!next) return;
+
+        clearAutoNext();
+        playEpisode(anime, next.seasonIndex, next.episodeIndex);
+    }
+
+    /* Al terminar el episodio, el botón de la tarjeta hace la cuenta atrás */
+    function startAutoNext(anime, next) {
+        var left = Math.max(2, Math.round((CFG.autoNextDelayMs || 4000) / 1000));
+        var card = $('nextCard');
+        var label = $('nextLabel');
+        var play = $('nextPlay');
+        if (!card || !label || !play) return;
+
+        clearAutoNext();
+        card.classList.add('is-counting');
+
+        function paint() {
+            label.textContent = 'Siguiente en ' + left + ' s';
+            play.textContent = String(left);
+        }
+        paint();
+
+        state.autoNextTimer = setInterval(function () {
+            left -= 1;
+            if (left > 0) { paint(); return; }
+
+            clearAutoNext();
+            card.classList.remove('is-counting');
+            label.textContent = 'A continuación';
+            play.textContent = '▶';
+            playEpisode(anime, next.seasonIndex, next.episodeIndex);
+        }, 1000);
     }
 
     function showPlayerUI() {
@@ -1901,20 +1951,6 @@
             if (e.key === 'Enter') { e.preventDefault(); postComment(); }
         });
 
-        var seek = $('seekBar');
-        seek.addEventListener('input', function () {
-            seek.dataset.dragging = '1';
-            if (isFinite(video.duration) && video.duration > 0) {
-                $('timeCurrent').textContent = formatTime((seek.value / 100) * video.duration);
-            }
-        });
-        seek.addEventListener('change', function () {
-            if (isFinite(video.duration) && video.duration > 0) {
-                video.currentTime = (seek.value / 100) * video.duration;
-            }
-            delete seek.dataset.dragging;
-        });
-
         document.addEventListener('keydown', function (e) {
             if (e.key !== 'Escape') return;
             if ($('fullPlayer').classList.contains('active')) { minimizePlayer(); return; }
@@ -1964,16 +2000,12 @@
 
             if (!next) {
                 toast('Has terminado esta temporada 🎉', 'ok', 4000);
+                renderNextUp();
                 return;
             }
 
-            var delay = Math.max(1500, CFG.autoNextDelayMs || 4000);
-            toast('Siguiente episodio en ' + Math.round(delay / 1000) + ' s');
-            clearAutoNext();
-            state.autoNextTimer = setTimeout(function () {
-                state.autoNextTimer = null;
-                playEpisode(currentAnime, next.seasonIndex, next.episodeIndex);
-            }, delay);
+            renderNextUp();
+            startAutoNext(currentAnime, next);
         });
 
         video.addEventListener('error', function () {
@@ -2052,8 +2084,7 @@
     window.minimizePlayer = minimizePlayer;
     window.closePlayer = closePlayer;
     window.togglePlayVideo = togglePlayVideo;
-    window.restartVideo = restartVideo;
-    window.stopVideo = stopVideo;
+    window.playNextEpisode = playNextEpisode;
     window.refreshCatalog = function () { return syncCatalog({ announce: true }); };
 
     if (document.readyState === 'loading') {

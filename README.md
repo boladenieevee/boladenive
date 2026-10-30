@@ -337,12 +337,16 @@ tablas de Supabase (`animes`, `seasons`, `episodes`) y construir el mismo
   navegador y recarga en la misma pantalla.
 - **Continuar viendo**: guarda la posición cada 5 s (y al pausar/salir).
   Reanuda desde donde lo dejaste si pasaste de 10 s y no estabas en el final.
-- **Siguiente episodio**: cuenta atrás de 4 s al terminar, también al cambiar
-  de temporada.
-- **Mini reproductor**: al minimizar sigue sonando y permite volver.
-- **Favoritos** con badge en la pestaña y sincronización inmediata.
+- **Mini reproductor**: al minimizar sigue reproduciéndose y permite volver.
+- **Favoritos** con sincronización inmediata. Al guardar, el icono de *Mi
+  lista* hace un pulso y aparece un punto que se desvanece: sin números ni
+  burbujas.
 - **Comentarios** por anime: lectura pública, escritura y borrado solo del
   propio usuario (RLS). Enter para enviar, sin `alert()`.
+- **Reproductor de vídeo**: controles nativos del navegador (pausa, barra y
+  pantalla completa) y tarjeta **«A continuación»** con el siguiente episodio.
+  Al terminar, la tarjeta hace la cuenta atrás y salta sola; puedes tocar para
+  pasar ya.
 - **Perfil**: nombre editable con validación y unicidad (sin distinguir
   mayúsculas), avatar de Google como fallback.
 - **Accesibilidad**: iconos de la tab bar con `aria-label`/`title`,

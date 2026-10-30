@@ -113,7 +113,7 @@
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
         </button>
         <button class="tab" data-view="viewList" onclick="switchTab('viewList', this)" aria-label="Mi lista" title="Mi lista">
-            <span class="tab-badge" id="navFavBadge">0</span>
+            <span class="tab-badge" id="navFavBadge" aria-hidden="true"></span>
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3H5c-1.1 0-2 .9-2 2v14l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
         </button>
     </nav>
@@ -183,19 +183,16 @@
                 <p id="videoSubtitle"></p>
             </div>
 
-            <div>
-                <label class="sr-only" for="seekBar">Progreso del vídeo</label>
-                <input type="range" class="seek" id="seekBar" min="0" max="100" step="0.1" value="0">
-                <div class="times">
-                    <span id="timeCurrent">0:00</span>
-                    <span id="timeTotal">0:00</span>
-                </div>
-            </div>
-
-            <div class="controls">
-                <button class="ctrl" id="restartBtn" onclick="restartVideo()" aria-label="Reiniciar">⏮</button>
-                <button class="ctrl ctrl-main" id="playPauseBtn" onclick="togglePlayVideo()" aria-label="Reproducir o pausar">⏸</button>
-                <button class="ctrl" id="stopBtn" onclick="stopVideo()" aria-label="Detener">⏹</button>
+            <div class="player-next" id="playerNext" hidden>
+                <button class="next-card" id="nextCard" type="button" onclick="playNextEpisode()">
+                    <span class="next-art" id="nextArt" aria-hidden="true"></span>
+                    <span class="next-info">
+                        <span class="next-label" id="nextLabel" aria-live="polite">A continuación</span>
+                        <span class="next-title" id="nextTitle">—</span>
+                        <span class="next-sub" id="nextSub"></span>
+                    </span>
+                    <span class="next-play" id="nextPlay" aria-hidden="true">▶</span>
+                </button>
             </div>
         </div>
     </div>
