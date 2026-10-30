@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-30T04:09:05.231Z",
+  "updatedAt": "2026-10-30T04:58:26.974Z",
   "animes": [
     {
       "id": "demon-slayer",
@@ -8,12 +8,12 @@
       "originalTitle": "Kimetsu no Yaiba",
       "year": 2019,
       "genres": [
-        "Acci├│n",
-        "Fantas├¡a",
+        "Acción",
+        "Fantasía",
         "Shonen"
       ],
       "studio": "ufotable",
-      "status": "En emisi├│n",
+      "status": "En emisión",
       "rating": 8.7,
       "ageRating": "16+",
       "synopsis": "Tanjiro Kamado ve destruida a su familia por un demonio y su hermana Nezuko es transformada. Para devolverle su humanidad, se une al Cuerpo de Exterminio de Demonios.",
@@ -70,7 +70,7 @@
             {
               "id": "demon-slayer-s1e04",
               "number": 4,
-              "title": "Selecci├│n final",
+              "title": "Selección final",
               "duration": 1440,
               "thumb": null,
               "sources": [
@@ -98,7 +98,7 @@
         {
           "id": "demon-slayer-s2",
           "number": 2,
-          "title": "Temporada 2 ┬À Distrito del Entretenimiento",
+          "title": "Temporada 2 · Distrito del Entretenimiento",
           "year": 2021,
           "episodes": [
             {
@@ -117,7 +117,7 @@
             {
               "id": "demon-slayer-s2e02",
               "number": 2,
-              "title": "Infiltraci├│n en el distrito",
+              "title": "Infiltración en el distrito",
               "duration": 1440,
               "thumb": null,
               "sources": [
@@ -164,14 +164,14 @@
       "year": 2020,
       "genres": [
         "Sobrenatural",
-        "Acci├│n",
+        "Acción",
         "Shonen"
       ],
       "studio": "MAPPA",
       "status": "Finalizada",
       "rating": 8.6,
       "ageRating": "16+",
-      "synopsis": "Yuji Itadori ingiere un dedo maldito y pasa a compartir cuerpo con Sukuna, el rey de las maldiciones. Para sobrevivir se une a la Escuela T├®cnica de Jujutsu de Tokio.",
+      "synopsis": "Yuji Itadori ingiere un dedo maldito y pasa a compartir cuerpo con Sukuna, el rey de las maldiciones. Para sobrevivir se une a la Escuela Técnica de Jujutsu de Tokio.",
       "poster": "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=440&q=70",
       "banner": "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=1200&q=70",
       "trending": true,
@@ -198,7 +198,7 @@
             {
               "id": "jujutsu-kaisen-s1e02",
               "number": 2,
-              "title": "Por m├¡ mismo",
+              "title": "Por mí mismo",
               "duration": 1440,
               "thumb": null,
               "sources": [
@@ -252,7 +252,7 @@
         {
           "id": "jujutsu-kaisen-s2",
           "number": 2,
-          "title": "Temporada 2 ┬À Shibuya",
+          "title": "Temporada 2 · Shibuya",
           "year": 2023,
           "episodes": [
             {
@@ -317,7 +317,7 @@
       "originalTitle": "Shingeki no Kyojin",
       "year": 2013,
       "genres": [
-        "Acci├│n",
+        "Acción",
         "Drama",
         "Misterio"
       ],
@@ -325,7 +325,7 @@
       "status": "Finalizada",
       "rating": 9.1,
       "ageRating": "18+",
-      "synopsis": "La humanidad sobrevive refugiada tras enormes murallas. Cuando un tit├ín rompe la muralla de Shiganshina, Eren jura exterminarlos a todos.",
+      "synopsis": "La humanidad sobrevive refugiada tras enormes murallas. Cuando un titán rompe la muralla de Shiganshina, Eren jura exterminarlos a todos.",
       "poster": "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=440&q=70",
       "banner": "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1200&q=70",
       "seasons": [
@@ -338,7 +338,7 @@
             {
               "id": "attack-on-titan-s1e01",
               "number": 1,
-              "title": "A ti, en 2000 a├▒os",
+              "title": "A ti, en 2000 años",
               "duration": 1440,
               "thumb": null,
               "sources": [
@@ -351,7 +351,7 @@
             {
               "id": "attack-on-titan-s1e02",
               "number": 2,
-              "title": "Ese d├¡a",
+              "title": "Ese día",
               "duration": 1440,
               "thumb": null,
               "sources": [
@@ -364,7 +364,7 @@
             {
               "id": "attack-on-titan-s1e03",
               "number": 3,
-              "title": "La luz tenue de la desesperaci├│n",
+              "title": "La luz tenue de la desesperación",
               "duration": 1440,
               "thumb": null,
               "sources": [
@@ -377,7 +377,7 @@
             {
               "id": "attack-on-titan-s1e04",
               "number": 4,
-              "title": "La noche de la graduaci├│n",
+              "title": "La noche de la graduación",
               "duration": 1440,
               "thumb": null,
               "sources": [
@@ -458,14 +458,14 @@
       "year": 2022,
       "genres": [
         "Sci-Fi",
-        "Acci├│n",
+        "Acción",
         "Drama"
       ],
       "studio": "Studio Trigger",
       "status": "Finalizada",
       "rating": 8.6,
       "ageRating": "18+",
-      "synopsis": "En Night City, un chico de la calle intenta sobrevivir en una sociedad obsesionada con la tecnolog├¡a y la modificaci├│n corporal.",
+      "synopsis": "En Night City, un chico de la calle intenta sobrevivir en una sociedad obsesionada con la tecnología y la modificación corporal.",
       "poster": "https://images.unsplash.com/photo-1618336753974-aae8e04506aa?auto=format&fit=crop&w=440&q=70",
       "banner": "https://images.unsplash.com/photo-1618336753974-aae8e04506aa?auto=format&fit=crop&w=1200&q=70",
       "seasons": [
@@ -568,10 +568,10 @@
         "Comedia"
       ],
       "studio": "Toei Animation",
-      "status": "En emisi├│n",
+      "status": "En emisión",
       "rating": 8.7,
       "ageRating": "12+",
-      "synopsis": "Monkey D. Luffy y su tripulaci├│n navegan por el Grand Line en busca del tesoro de Gol D. Roger para convertirle en el Rey de los Piratas.",
+      "synopsis": "Monkey D. Luffy y su tripulación navegan por el Grand Line en busca del tesoro de Gol D. Roger para convertirle en el Rey de los Piratas.",
       "poster": "https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=440&q=70",
       "banner": "https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=1200&q=70",
       "trending": true,
@@ -585,7 +585,7 @@
             {
               "id": "one-piece-s1e01",
               "number": 1,
-              "title": "┬íSoy Luffy! El hombre que ser├í el Rey de los Piratas",
+              "title": "¡Soy Luffy! El hombre que será el Rey de los Piratas",
               "duration": 1440,
               "thumb": null,
               "sources": [
@@ -598,7 +598,7 @@
             {
               "id": "one-piece-s1e02",
               "number": 2,
-              "title": "┬íEl gran espadach├¡n! Roronoa Zoro, el cazador de piratas",
+              "title": "¡El gran espadachín! Roronoa Zoro, el cazador de piratas",
               "duration": 1440,
               "thumb": null,
               "sources": [
@@ -637,7 +637,7 @@
             {
               "id": "one-piece-s1e05",
               "number": 5,
-              "title": "Un extra├▒o peque├▒o",
+              "title": "Un extraño pequeño",
               "duration": 1440,
               "thumb": null,
               "sources": [
@@ -657,7 +657,7 @@
       "originalTitle": "Naruto",
       "year": 2002,
       "genres": [
-        "Acci├│n",
+        "Acción",
         "Aventura",
         "Shonen"
       ],
@@ -665,7 +665,7 @@
       "status": "Finalizada",
       "rating": 8.4,
       "ageRating": "12+",
-      "synopsis": "Naruto Uzumaki, un ninja hiperactivo con un demonio sellado en su interior, persigue el sue├▒o de convertirse en Hokage y ser reconocido por su aldea.",
+      "synopsis": "Naruto Uzumaki, un ninja hiperactivo con un demonio sellado en su interior, persigue el sueño de convertirse en Hokage y ser reconocido por su aldea.",
       "poster": "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=440&q=70",
       "banner": "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=1200&q=70",
       "seasons": [
@@ -678,7 +678,7 @@
             {
               "id": "naruto-s1e01",
               "number": 1,
-              "title": "┬íAqu├¡ estoy! ┬íNaruto Uzumaki!",
+              "title": "¡Aquí estoy! ¡Naruto Uzumaki!",
               "duration": 1440,
               "thumb": null,
               "sources": [
@@ -691,7 +691,7 @@
             {
               "id": "naruto-s1e02",
               "number": 2,
-              "title": "┬íMi nombre es Konohamaru!",
+              "title": "¡Mi nombre es Konohamaru!",
               "duration": 1440,
               "thumb": null,
               "sources": [
@@ -704,7 +704,7 @@
             {
               "id": "naruto-s1e03",
               "number": 3,
-              "title": "┬íSasuke y Sakura! ┬┐Amigos o enemigos?",
+              "title": "¡Sasuke y Sakura! ¿Amigos o enemigos?",
               "duration": 1440,
               "thumb": null,
               "sources": [
@@ -717,7 +717,7 @@
             {
               "id": "naruto-s1e04",
               "number": 4,
-              "title": "┬íEntrenamiento! ┬íEl truco de la campana!",
+              "title": "¡Entrenamiento! ¡El truco de la campana!",
               "duration": 1440,
               "thumb": null,
               "sources": [
@@ -730,7 +730,7 @@
             {
               "id": "naruto-s1e05",
               "number": 5,
-              "title": "┬íSuspenso! ┬íEl s├®ptimo equipo se dispersa!",
+              "title": "¡Suspenso! ¡El séptimo equipo se dispersa!",
               "duration": 1440,
               "thumb": null,
               "sources": [
