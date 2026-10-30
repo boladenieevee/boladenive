@@ -1,0 +1,5 @@
+# Archivos de prueba locales (probes del navegador)
+__*.html
+
+# Logs
+*.log

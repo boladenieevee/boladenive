@@ -17,6 +17,9 @@ js/config.js          Credenciales de Supabase y tiempos del reproductor
 js/data/catalog.js    Catálogo: animes → temporadas → episodios
 js/data/PLANTILLA-anime.js  Ejemplo para copiar y pegar (no se carga)
 js/app.js             Router, auth, favoritos, progreso, comentarios, player
+manifest.webmanifest  Datos de la PWA (nombre, iconos, pantalla completa)
+sw.js                 Service worker: abre la app sin conexión
+icons/                Iconos 192/512 y apple-touch-icon
 sql/schema.sql        Tablas + RLS + perfil automático (ejecutar en Supabase)
 sql/migration-avatares.sql  Añade la foto de perfil (solo si ya tenías las tablas)
 serve.ps1             Servidor local para probar (Windows, sin instalar nada)
@@ -279,7 +282,7 @@ subir la versión a mano.
 **Configuración** en `js/config.js`:
 
 ```js
-catalogUrl: '[catalog.json',        // o 'https://.../catalog.json](https://raw.githubusercontent.com/boladenieevee/boladenive/main/catalog.json)'
+catalogUrl: 'catalog.json',        // o 'https://.../catalog.json'
 catalogTimeoutMs: 8000,            // si tarda más, usa la copia guardada
 catalogCacheKey: 'snowball.catalog.v1',
 catalogRefreshMs: 5 * 60 * 1000    // revisión al volver a la app
@@ -376,6 +379,8 @@ Checklist antes de publicar:
 - [ ] Google provider activo y `.../auth/v1/callback` autorizado.
 - [ ] Site URL y Redirect URLs con el dominio real.
 - [ ] `js/config.js` con la URL y clave del proyecto de producción.
+- [ ] `manifest.webmanifest`, `sw.js` e `icons/` subidos al hosting.
+- [ ] La app abre por HTTPS y Chrome ofrece **Instalar app**.
 - [ ] Vídeos y portadas con derechos de uso.
 - [ ] Prueba de login, favorito, progreso y comentario en el dominio real.
 - [ ] Aviso legal / política de privacidad publicados (obligatorio con Google
@@ -383,7 +388,64 @@ Checklist antes de publicar:
 
 ---
 
-## 7. Problemas frecuentes
+## 7. Instalar en el móvil
+
+La app se instala **desde el navegador** (PWA): no hace falta APK, ni tienda,
+ni cable. Requisito único: que esté publicada por **HTTPS** (GitHub Pages,
+Netlify, Vercel, Cloudflare Pages…). En `localhost` también se puede probar.
+
+### 7.1 Android (Chrome)
+
+1. Abre la URL de la app en **Chrome**.
+2. Toca el menú **⋮** (arriba a la derecha).
+3. Pulsa **Instalar app** o **Añadir a pantalla de inicio**.
+4. Confirma. Aparece el icono de Snowball y se abre a pantalla completa, sin
+   barra del navegador.
+
+Si no sale la opción: recarga, espera unos segundos y vuelve a abrir el menú.
+Chrome solo la ofrece cuando el manifest y el service worker cargan bien y la
+página viene de HTTPS.
+
+### 7.2 iPhone (Safari)
+
+1. Abre la URL en **Safari** (no Chrome).
+2. Botón **Compartir** → **Añadir a pantalla de inicio**.
+
+### 7.3 Qué funciona offline
+
+`sw.js` guarda `index.html`, el CSS, los JS y los iconos. Sin conexión la app
+abre y muestra el catálogo guardado en el móvil (localStorage o el incluido en
+`js/data/catalog.js`). Lo que **no** funciona sin internet: login, comentarios,
+favoritos, progreso y el vídeo. El catálogo remoto se actualiza solo en cuanto
+vuelve la conexión.
+
+### 7.4 APK real (opcional)
+
+Una PWA instalada ya se comporta como una app. Si aun así necesitas un archivo
+`.apk` para repartir:
+
+| Camino | Qué necesitas | Aviso |
+|---|---|---|
+| **PWABuilder** (recomendado) | Solo la URL publicada; la web genera el APK | Genera un *Trusted Web Activity*: es el navegador sin barra, así que el login de Google funciona |
+| **Capacitor / Android Studio** | Node, JDK y Android Studio en tu PC | Más control, pero hay que compilar y firmar; el login de Google dentro de un WebView suele estar bloqueado |
+
+Con TWA (PWABuilder) el `catalogUrl` **debe ser una URL absoluta**, porque el
+APK no sirve los archivos locales igual que la web:
+
+```js
+catalogUrl: 'https://raw.githubusercontent.com/boladenieevee/boladenive/main/catalog.json',
+```
+
+Y el dominio del APK debe estar en *Supabase → Authentication → URL
+Configuration* para que Google devuelva al usuario a la app.
+
+> Un APK no se actualiza solo: cada cambio de HTML/CSS/JS obliga a subir una
+> versión nueva a la tienda o al enlace de descarga. La PWA sí se actualiza al
+> abrirla. Por eso el catálogo es remoto: los animes cambian sin recompilar.
+
+---
+
+## 8. Problemas frecuentes
 
 | Síntoma | Causa / solución |
 |---|---|
@@ -396,10 +458,14 @@ Checklist antes de publicar:
 | El nombre de usuario ya existe | Los nombres son únicos sin distinguir mayúsculas. |
 | Los cambios del catálogo no aparecen | Revisa `catalogUrl` (URL absoluta en el APK), CORS del hosting y prueba `refreshCatalog()` en consola. |
 | El catálogo no carga y la app usa datos viejos | El JSON remoto falló o es inválido: mira `[catálogo remoto]` en la consola. |
+| Chrome no muestra "Instalar app" | Falta HTTPS, o no cargan `manifest.webmanifest`, `sw.js` o los iconos (revisa que estén subidos y den 200). |
+| Al instalar la PWA sale un icono genérico | Los PNG de `icons/` no se subieron o la ruta del manifest es incorrecta. |
+| La PWA sigue mostrando la versión vieja | Cierra la app del todo y vuelve a abrirla; el service worker pide red primero, pero puede tardar un ciclo. |
+| Login de Google falla solo en el móvil | El dominio publicado no está en Supabase *Site URL / Redirect URLs*. |
 
 ---
 
-## 8. Nota legal
+## 9. Nota legal
 
 Snowball es el reproductor: **no incluye ni aloja contenido con derechos de
 terceros**. Los títulos, sinopsis y episodios del catálogo son datos de
