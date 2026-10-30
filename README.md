@@ -279,7 +279,7 @@ subir la versión a mano.
 **Configuración** en `js/config.js`:
 
 ```js
-catalogUrl: 'catalog.json',        // o 'https://.../catalog.json'
+catalogUrl: '[catalog.json',        // o 'https://.../catalog.json](https://raw.githubusercontent.com/boladenieevee/boladenive/main/catalog.json)'
 catalogTimeoutMs: 8000,            // si tarda más, usa la copia guardada
 catalogCacheKey: 'snowball.catalog.v1',
 catalogRefreshMs: 5 * 60 * 1000    // revisión al volver a la app
