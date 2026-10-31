@@ -264,6 +264,32 @@
                     '¡Suspenso! ¡El séptimo equipo se dispersa!'
                 ])
             ]
+        },
+
+        /* ---------------------------------------------------------------- */
+        {
+            id: 'chainsaw-man',
+            title: 'Chainsaw Man',
+            originalTitle: 'Chainsaw Man',
+            year: 2022,
+            genres: ['Acción', 'Drama', 'Terror', 'Sobrenatural'],
+            studio: 'MAPPA',
+            status: 'Finalizada',
+            rating: 8.3,
+            ageRating: '18+',
+            synopsis: 'Denji es un adolescente que vive con Pochita, un demonio motosierra, y paga la deuda de su padre recolectando cadáveres de demonios. Un día lo traicionan y lo matan; al borde de la muerte hace un contrato con Pochita y renace como «Chainsaw Man», un hombre con el corazón de un demonio.',
+            poster: 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx127230-DdP4vAdssLoz.png',
+            banner: 'https://s4.anilist.co/file/anilistcdn/media/anime/banner/127230-o8IRwCGVr9KW.jpg',
+            trending: true,
+            seasons: [
+                makeSeason('chainsaw-man', 1, 2022, [
+                    {
+                        title: 'Perro y motosierra',
+                        minutes: 25,
+                        sources: [{ type: 'hls', url: 'https://nika.playmudos.com/THM4cko5anNBdkxMQncyQTc3Y0R3ek5iUTA1dW5yZkFTLzdvNXhRdWJ2Yz0.m3u8?st=tuOpNOLZRR-vhjMhO7g1ew&e=1793436212' }]
+                    }
+                ], { minutes: 25 })
+            ]
         }
     ];
 

@@ -1505,12 +1505,9 @@
             badge.hidden = false;
             badge.textContent = 'HLS';
 
-            if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                video.src = src.url;
-                video.load();
-                return;
-            }
-
+            // hls.js primero: Chrome/Edge modernos dicen "maybe" en canPlayType
+            // para HLS pero luego no lo reproducen (error 4). Safari/iOS sí lo
+            // hace nativo, y ahí hls.js no es compatible, así que cae al vídeo.
             if (window.Hls && window.Hls.isSupported()) {
                 state.hls = new window.Hls({ maxBufferLength: 30 });
                 state.hls.loadSource(src.url);
@@ -1518,6 +1515,12 @@
                 state.hls.on(window.Hls.Events.ERROR, function (_event, data) {
                     if (data && data.fatal) toast('Error de streaming (HLS): ' + data.type, 'err', 5000);
                 });
+                return;
+            }
+
+            if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = src.url;
+                video.load();
                 return;
             }
 
