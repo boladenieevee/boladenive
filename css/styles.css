@@ -1370,3 +1370,172 @@ body {
     /* Sin animación: el punto se muestra fijo y el JS lo apaga a los 900 ms */
     .tab-badge.pulse { animation: none !important; opacity: 1; transform: scale(1); }
 }
+
+/* ============================== ESCRITORIO ==============================
+   Desde 1024px la app deja de ser una columna de móvil: navegación lateral,
+   fondo a todo el ancho y contenido centrado. En el móvil no cambia nada.
+   ====================================================================== */
+@media (min-width: 1024px) {
+    /* La ventana entera es la app: así los fondos llegan a los bordes */
+    .phone-container { max-width: none; }
+
+    /* Tab bar inferior -> columna de navegación a la izquierda */
+    .tab-bar {
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 76px;
+        height: 100%;
+        padding: 0;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        border-top: none;
+        border-right: 0.5px solid var(--separator);
+    }
+    .tab { flex: none; width: 52px; height: 52px; border-radius: 14px; }
+    .tab svg { width: 23px; height: 23px; }
+    .tab.active { background: rgba(124, 58, 237, 0.16); }
+    .tab.active svg { transform: none; }
+
+    .views { padding-left: 76px; padding-bottom: 40px; }
+    .phone-container.has-mini .views { padding-bottom: 104px; }
+
+    .detail-screen { left: 76px; padding-bottom: 40px; }
+    .phone-container.has-mini .detail-screen { padding-bottom: 104px; }
+
+    .player { left: 76px; padding: 20px 32px 28px; }
+    .toast-stack { bottom: 92px; }
+
+    /* Mini reproductor: barra centrada, no de borde a borde */
+    .mini {
+        left: 0;
+        right: 0;
+        margin-left: auto;
+        margin-right: auto;
+        bottom: 18px;
+        width: min(880px, calc(100% - 140px));
+    }
+
+    /* ---------------- Inicio / Explorar / Mi lista ---------------- */
+    #viewHome .page-head,
+    #viewHome .feature-card,
+    #viewHome .section-head,
+    #viewHome .shelf,
+    #viewExplore .page-head,
+    #viewExplore .search-wrap,
+    #viewExplore .chips,
+    #viewExplore .section-head,
+    #viewExplore .browse-grid,
+    #viewExplore .shelf,
+    #viewList .page-head,
+    #viewList .section-head,
+    #viewList #favoritesGrid {
+        max-width: 1040px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #viewHome .feature-card { height: 340px; margin: 20px auto 8px; }
+    .feature-bottom h2 { font-size: 30px; }
+    .feature-bottom p { font-size: 14px; }
+
+    /* Las estanterías se envuelven en filas en vez de exigir scroll horizontal */
+    #viewHome .shelf,
+    #viewExplore .shelf {
+        flex-wrap: wrap;
+        overflow: visible;
+    }
+    #viewHome .empty-state { padding: 22px 20px; }
+
+    /* Buscador: barra cómoda, no de 1000px */
+    #viewExplore .search-field { max-width: 520px; }
+
+    .album, .album-art, .skeleton-card, .skeleton-art { width: 172px; }
+    .album-art, .skeleton-art { height: 172px; }
+    .album-title { font-size: 14px; }
+
+    /* Mi lista: tarjetas en cuadrícula en vez de una lista larguísima */
+    #viewList .group {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+        gap: 8px;
+        background: none;
+        overflow: visible;
+    }
+    #viewList .row { background: var(--card); border-radius: 12px; }
+    /* En cuadrícula no hacen falta las líneas separadoras de la lista */
+    #viewList .row + .row::before { display: none; }
+
+    /* ---------------- Ficha: dos columnas ---------------- */
+    .detail-hero {
+        display: grid;
+        grid-template-columns: 250px minmax(0, 1fr);
+        grid-template-areas:
+            "back back"
+            "art title"
+            "art meta"
+            "art tags"
+            "art synopsis";
+        column-gap: 40px;
+        align-items: start;
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 18px 20px 4px;
+    }
+    .detail-hero::before { top: -100px; height: 480px; }
+    /* El fondo difuminado debe salir del bloque de 980px y llegar a los bordes */
+    .detail-hero { overflow: visible; }
+    .detail-hero::after { left: -20%; width: 140%; }
+    .detail-hero .back-row { grid-area: back; margin-bottom: 16px; }
+    .detail-art {
+        grid-area: art;
+        width: 250px;
+        max-width: 250px;
+        margin: 0;
+        border-radius: 14px;
+    }
+    .detail-title {
+        grid-area: title;
+        margin: 8px 0 8px;
+        font-size: 34px;
+        letter-spacing: -1px;
+        text-align: left;
+    }
+    .detail-meta { grid-area: meta; text-align: left; font-size: 14px; margin-bottom: 12px; }
+    .detail-tags { grid-area: tags; justify-content: flex-start; margin-bottom: 14px; }
+    .detail-synopsis {
+        grid-area: synopsis;
+        text-align: left;
+        font-size: 14px;
+        max-width: 620px;
+        padding: 0;
+        margin: 0;
+    }
+
+    /* Botones y episodios alineados con la columna de texto */
+    .action-row {
+        max-width: 980px;
+        margin: 12px auto 0;
+        justify-content: flex-start;
+        padding: 0 20px 8px 310px;
+    }
+    .detail-screen .section-head,
+    .season-tabs,
+    .ep-list,
+    .comments-block {
+        max-width: 980px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .ep-list { margin: 0 auto; padding: 0 12px; }
+    .ep-item { padding: 10px; }
+    .ep-thumb { width: 124px; height: 70px; border-radius: 8px; }
+    .ep-title { font-size: 15px; }
+    .ep-sub { font-size: 12.5px; }
+    .comments-block { margin-top: 26px; }
+
+    /* Reproductor: escenario grande pero sin ocupar toda la pantalla */
+    .player-body { width: 100%; max-width: 900px; margin: 0 auto; }
+}

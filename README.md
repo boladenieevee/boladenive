@@ -338,6 +338,9 @@ tablas de Supabase (`animes`, `seasons`, `episodes`) y construir el mismo
 - **Continuar viendo**: guarda la posición cada 5 s (y al pausar/salir).
   Reanuda desde donde lo dejaste si pasaste de 10 s y no estabas en el final.
 - **Mini reproductor**: al minimizar sigue reproduciéndose y permite volver.
+- **Escritorio (≥1024px)**: la barra inferior se convierte en una columna de
+  navegación a la izquierda, la ficha pasa a dos columnas (carátula + datos) y
+  las listas se reparten en cuadrícula. En el móvil todo sigue igual.
 - **Favoritos** con sincronización inmediata. Al guardar, el icono de *Mi
   lista* hace un pulso y aparece un punto que se desvanece: sin números ni
   burbujas.
